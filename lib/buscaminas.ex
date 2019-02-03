@@ -30,7 +30,6 @@ defmodule Buscaminas do
       true ->  [position - ancho + 1,position - ancho, position - ancho - 1, position - 1, position + 1, position + ancho - 1 ,position + ancho ,position + ancho + 1]
     end
     my_positions = Enum.filter(my_positions,fn a -> a > 0 end)
-    Enum.each(my_positions,fn a -> IO.puts(a) end)
     for n <- Enum.map(my_positions, fn(a) -> if a != "*" do List.update_at(array,a,&(&1 + 1)) end end) |> Enum.zip , do: Tuple.to_list(n) |> Enum.sum
   end
 
