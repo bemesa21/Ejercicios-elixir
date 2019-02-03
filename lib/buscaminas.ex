@@ -16,10 +16,13 @@ defmodule Buscaminas do
 
   def busca(matrix) do
     mtx2 =  List.duplicate(0, length(matrix))
-    minas = Enum.with_index(matrix) |> Enum.map(fn {e, idx} -> if e == "*" do idx end end) |> Enum.filter(fn a -> a != nil end)
-    solution = for n <- Enum.map(minas,fn(a) -> llena(mtx2,a,4) end) |> Enum.zip, do: Tuple.to_list(n) |> Enum.sum
-    Enum.chunk_every(solution,4) #|> Enum.each(File.write("lib/result.txt")) 
-  end  
+    minas = Enum.with_index(matrix) 
+            |> Enum.map(fn {e, idx} -> if e == "*" do idx end end) 
+            |> Enum.filter(fn a -> a != nil end)
+    solution = for n <- Enum.map(minas,fn(a) -> llena(mtx2,a,4) end) 
+               |> Enum.zip, do: Tuple.to_list(n) 
+               |> Enum.sum
+    Enum.chunk_every(solution,4) 
 
   def llena(array,position,ancho) do
     my_positions = cond do
@@ -30,7 +33,9 @@ defmodule Buscaminas do
       true ->  [position - ancho + 1,position - ancho, position - ancho - 1, position - 1, position + 1, position + ancho - 1 ,position + ancho ,position + ancho + 1]
     end
     my_positions = Enum.filter(my_positions,fn a -> a > 0 end)
-    for n <- Enum.map(my_positions, fn(a) -> if a != "*" do List.update_at(array,a,&(&1 + 1)) end end) |> Enum.zip , do: Tuple.to_list(n) |> Enum.sum
+    for n <- Enum.map(my_positions, fn(a) -> if a != "*" do List.update_at(array,a,&(&1 + 1)) end end) 
+              |> Enum.zip , do: Tuple.to_list(n) 
+              |> Enum.sum
   end
 
   def imprime(results) do 
