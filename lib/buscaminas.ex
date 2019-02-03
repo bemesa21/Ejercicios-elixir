@@ -10,19 +10,21 @@ defmodule Buscaminas do
   def transform(text) do 
     trimed_text = text |> String.split("\n", trim: true)
     [dimensions|lines] = trimed_text 
-    [dim1,dim2] = dimensions |> String.split()
-    Enum.map(lines, fn(l) -> String.graphemes(l) end) |> List.flatten
+    [_dim1,dim2] = dimensions |> String.split() |> Enum.map(fn(a)->String.to_integer(a) end)
+    array = Enum.map(lines, fn(l) -> String.graphemes(l) end) |> List.flatten
+    result = {_dim1,dim2,array}
   end
 
-  def busca(matrix) do
-    mtx2 =  List.duplicate(0, length(matrix))
-    minas = Enum.with_index(matrix) 
+  def busca({dim1,dim2,array}) do
+    mtx2 =  List.duplicate(0, length(array))
+    minas = Enum.with_index(array) 
             |> Enum.map(fn {e, idx} -> if e == "*" do idx end end) 
             |> Enum.filter(fn a -> a != nil end)
-    solution = for n <- Enum.map(minas,fn(a) -> llena(mtx2,a,4) end) 
+    solution = for n <- Enum.map(minas,fn(a) -> llena(mtx2,a,dim1) end) 
                |> Enum.zip, do: Tuple.to_list(n) 
                |> Enum.sum
-    Enum.chunk_every(solution,4) 
+    Enum.chunk_every(solution,dim1) 
+  end
 
   def llena(array,position,ancho) do
     my_positions = cond do
