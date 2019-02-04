@@ -10,13 +10,22 @@ defmodule FizzBuzzTest do
     end
   end)
 
-  test "five multiples" do
-    assert FizzBuzz.validate(5) == "Buzz"
-  end
+  [5, 10, 20, 25, 35]
+  |> Enum.each(fn n ->
+    @n n
+    test "five multiples: #{@n}" do
+      assert FizzBuzz.validate(@n) == "Buzz"
+    end
+  end)
 
-  test "both multiples" do
-    assert FizzBuzz.validate(30) == "FizzBuzz"
-  end
+
+  [15, 30, 60]
+  |> Enum.each(fn n ->
+    @n n
+    test "both: #{@n}" do
+      assert FizzBuzz.validate(@n) == "FizzBuzz"
+    end
+  end)
 
   test "one_number" do
     assert is_integer(FizzBuzz.validate(1)) 

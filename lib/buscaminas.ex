@@ -41,17 +41,17 @@ defmodule Buscaminas do
         |> List.foldl(0, fn (x),  acc -> if is_integer(x) do x + acc else "*" end end)
       end
 
-      def imprime(results) do 
-        {response, file} = File.open "lib/result.txt", [:write]
-        case response do
-          :ok -> Enum.each(results,fn(a)->aux(a,file)end)  
-          _->IO.puts(response)
-        end   
-      end
+  def imprime(results) do 
+    {response, file} = File.open "lib/result.txt", [:write]
+    case response do
+      :ok -> Enum.each(results,fn(a)->aux(a,file)end)  
+      _->IO.puts(response)
+    end   
+  end
 
-      def aux(line,file) do
-        Enum.each(line,fn(l)-> IO.write(file,l) end)
-        IO.write(file,"\n")
-      end
+  def aux(line,file) do
+    Enum.each(line,fn(l)-> IO.write(file,l) end)
+    IO.write(file,"\n")
+  end
 
-    end
+end
