@@ -5,7 +5,7 @@ defmodule FizzBuzzTest do
   [3, 6, 9, 12, 18, 21, 33, 36, 99]
   |> Enum.each(fn n ->
     @n n
-    test "three multiples: #{@n}" do
+    test "multiples of three: #{@n}" do
       assert FizzBuzz.validate(@n) == "Fizz"
     end
   end)
@@ -13,7 +13,7 @@ defmodule FizzBuzzTest do
   [5, 10, 20, 25, 35, 40, 50, 55, 65, 80, 95]
   |> Enum.each(fn n ->
     @n n
-    test "five multiples: #{@n}" do
+    test "multiples of five: #{@n}" do
       assert FizzBuzz.validate(@n) == "Buzz"
     end
   end)
@@ -22,7 +22,7 @@ defmodule FizzBuzzTest do
   [15, 30, 45, 60, 75, 90]
   |> Enum.each(fn n ->
     @n n
-    test "both: #{@n}" do
+    test "multiples of three and five: #{@n}" do
       assert FizzBuzz.validate(@n) == "FizzBuzz"
     end
   end)
