@@ -27,7 +27,11 @@ defmodule FizzBuzzTest do
     end
   end)
 
-  test "one_number" do
-    assert is_integer(FizzBuzz.validate(1))
-  end
+  [1, 2, 4, 7, 8, 11, 13, 14, 16, 17, 19, 22]
+  |> Enum.each(fn n ->
+    @n n
+    test "number #{@n}" do
+      assert is_integer(FizzBuzz.validate(@n))
+    end
+  end)
 end
