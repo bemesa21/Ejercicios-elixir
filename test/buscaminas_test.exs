@@ -15,7 +15,6 @@ defmodule BuscaminasTest do
         "1*10",
         "1110"
       ]
-
   end
 
   test "Probando esquinas" do
@@ -50,6 +49,5 @@ defmodule BuscaminasTest do
         "111",
         "1*1"
         ]
-    
   end
 end
