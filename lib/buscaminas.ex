@@ -1,9 +1,8 @@
 defmodule Buscaminas do
   def obtiene() do
-    {response, contents} = File.read("lib/minas.txt")
-    case response do
-      :ok -> transform(contents) |> busca() |> imprime()
-      _->IO.puts(response)
+    case File.read("lib/minas.txt") do
+      {:ok, contents} -> transform(contents) |> busca() |> imprime()
+      {:error, reason} -> IO.puts(reason)
     end
   end
 
@@ -39,26 +38,49 @@ defmodule Buscaminas do
 
   def llena(array,position,ancho) do
     array = List.replace_at(array,position,"*") #poniendo mina en posición
-    
+
     my_positions =
       case rem(position + 1 , ancho) do
-        0 -> [position - (ancho + 1),position - ancho,position - 1,position + (ancho - 1) ,position + ancho] #extremo derecho
-        1 -> [position - ancho, position - (ancho - 1),position + 1,position + ancho ,position + ancho + 1] #extremo izquierdo
-        _ -> [position - ancho + 1,position - ancho, position - ancho - 1, position - 1, position + 1, position + ancho - 1 ,position + ancho ,position + ancho + 1]
+        0 ->
+          [
+            position - (ancho + 1),
+            position - ancho,
+            position - 1,
+            position + (ancho - 1),
+            position + ancho
+          ] #extremo derecho
+        1 ->
+          [
+            position - ancho,
+            position - (ancho - 1),
+            position + 1,position + ancho,
+            position + ancho + 1
+          ] #extremo izquierdo
+        _ ->
+          [
+            position - ancho + 1,
+            position - ancho,
+            position - ancho - 1,
+            position - 1,
+            position + 1,
+            position + ancho - 1 ,
+            position + ancho,
+            position + ancho + 1
+          ]
       end
 
     my_positions = Enum.filter(my_positions,fn a -> a > 0 end) #filtrando negativos.
-    
-    for n <- Enum.map(my_positions, fn(a) -> if a != "*" do List.update_at(array,a,&(&1 + 1)) end end)
-      |> Enum.zip , do: Tuple.to_list(n)
-      |> List.foldl(0, fn (x),  acc -> if is_integer(x) do x + acc else "*" end end)
+
+    for n <- Enum.map(my_positions, fn(a) ->
+      if a != "*" do List.update_at(array,a,&(&1 + 1)) end
+    end) |> Enum.zip , do: Tuple.to_list(n)
+    |> List.foldl(0, fn (x),  acc -> if is_integer(x) do x + acc else "*" end end)
   end
 
   def imprime(results) do
-    {response, file} = File.open "lib/result.txt", [:write]
-    case response do
-      :ok -> Enum.each(results,fn(a)-> IO.write(file,a<>"\n")end)
-      _->IO.puts(response)
+    case File.open "lib/result.txt", [:write] do
+      {:ok, file} -> Enum.each(results,fn(a)-> IO.write(file,a<>"\n")end)
+      {:error, reason} ->IO.puts(reason)
     end
   end
 end
