@@ -22,6 +22,7 @@ defmodule OpeningTheTuringLock do
       {"jmp", offset} -> execute_instructions(instruction_list, registers, new_position(pos, offset)) 
       {"jie", register,offset} -> execute_instructions(instruction_list ,registers, if rem(Map.get(registers, register), 2) == 0 do new_position(pos, offset) else pos + 1 end) 
       {"jio", register,offset} -> execute_instructions(instruction_list ,registers, if Map.get(registers, register) == 1 do new_position(pos, offset) else pos + 1 end) 
+      _ -> registers
     end
   end
 
