@@ -2,7 +2,7 @@ defmodule Buscaminas do
   def obtiene() do
     {response, contents} = File.read("lib/minas.txt")
     case response do
-      :ok -> transform(contents) |> busca() |> imprime()
+      :ok -> contents |> transform() |> busca() |> imprime()
       _->IO.puts(response)
     end
   end
