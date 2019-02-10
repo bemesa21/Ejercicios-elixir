@@ -20,17 +20,8 @@ defmodule OpeningTheTuringLock do
       {"hlf", register} -> execute_instructions(instruction_list, Map.update!(registers, register, &(Integer.floor_div(&1,2))), pos + 1 )
       {"tpl", register} -> execute_instructions(instruction_list, Map.update!(registers, register, &(&1 * 3)), pos + 1 )
       {"jmp", offset} -> execute_instructions(instruction_list, registers, new_position(pos, offset)) 
-      {"jie", register,offset} -> 
-        case rem(Map.get(registers, register), 2) do
-          0 -> execute_instructions(instruction_list ,registers, new_position(pos, offset)) 
-          _ -> execute_instructions(instruction_list ,registers, pos + 1) 
-        end
-      {"jio", register,offset} -> 
-        case Map.get(registers, register) == 1 do
-          true -> execute_instructions(instruction_list ,registers, new_position(pos, offset)) 
-          false -> execute_instructions(instruction_list ,registers, pos + 1) 
-        end
-      _ -> registers
+      {"jie", register,offset} -> execute_instructions(instruction_list ,registers, if rem(Map.get(registers, register), 2) == 0 do new_position(pos, offset) else pos + 1 end) 
+      {"jio", register,offset} -> execute_instructions(instruction_list ,registers, if Map.get(registers, register) == 1 do new_position(pos, offset) else pos + 1 end) 
     end
   end
 
