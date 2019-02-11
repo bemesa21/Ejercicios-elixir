@@ -1,16 +1,16 @@
 defmodule FizzBuzz do
-	def start() do
-		1 .. 100 
-		|> Enum.map(fn(n)->validate(n) end)
-		|> Enum.each(fn(a)-> IO.puts(a) end)
-	end
- 
-	def validate(num) do 
-		cond do
-			rem(num,3) == 0 && rem(num,5) == 0 -> "FizzBuzz" 
-			rem(num,3) == 0 -> "Fizz"
-			rem(num,5) == 0 -> "Buzz"
-			true -> num
-		end
-	end
+  def start() do
+    1..100
+    |> Enum.map(fn(n)-> fizzbuzz(n) end)
+    |> Enum.each(fn(a)-> IO.puts(a) end)
+  end
+
+  def fizzbuzz(num) do
+    case {rem(num, 3), rem(num, 5)} do
+      {0, 0} -> "FizzBuzz"
+      {0, _} -> "Fizz"
+      {_, 0} -> "Buzz"
+      {_, _} -> num
+    end
+  end
 end
